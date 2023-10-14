@@ -1,5 +1,6 @@
 from sys import argv
 from os.path import isfile
+import time
 
 def write_log(message):
     with open('analyze-data.log', 'a') as log:
@@ -64,6 +65,11 @@ def read_file(file):
 
         return (fields, customer_list)
 
+def sort_ascendent_date(customer_list):
+    return sorted(
+            customer_list, 
+            key=lambda d: time.strptime(d['last check-in date'], '%d/%m/%Y'))
+
 def main():
     # The program accepts one file either passed as an argument or by inputing
     # when the program is started (in case it is called without arguments)
@@ -79,11 +85,10 @@ def main():
         raise FileNotFoundError()
 
     fields, customer_list = read_file(input_file)
-
-    print(fields)
-    for i in customer_list:
-        print(i)
-
+    
+    sorted_customer_list = sort_ascendent_date(customer_list)
+    print(f'Customer with the earliest check in date: {sorted_customer_list[0]}')
+    print(f'Customer with the latest check in date: {sorted_customer_list[-1]}')
 
 if __name__ == '__main__':
     main()
