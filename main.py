@@ -1,6 +1,7 @@
 from sys import argv
 from os.path import isfile
 import time
+import unicodedata
 
 def write_log(message):
     with open('analyze-data.log', 'a') as log:
@@ -70,6 +71,16 @@ def sort_ascendent_date(customer_list):
             customer_list, 
             key=lambda d: time.strptime(d['last check-in date'], '%d/%m/%Y'))
 
+def sort_customer_names_list(customer_list):
+    names_list = map(
+            lambda d: d['first name'] + ' ' + d['last name'],
+            customer_list)
+
+    return sorted(
+            names_list, 
+            key=lambda w: ''.join(c for c in unicodedata.normalize('NFD', w)
+                                  if unicodedata.category(c) != 'Mn'))
+
 def main():
     # The program accepts one file either passed as an argument or by inputing
     # when the program is started (in case it is called without arguments)
@@ -89,6 +100,10 @@ def main():
     sorted_customer_list = sort_ascendent_date(customer_list)
     print(f'Customer with the earliest check in date: {sorted_customer_list[0]}')
     print(f'Customer with the latest check in date: {sorted_customer_list[-1]}')
+    sorted_names_list = sort_customer_names_list(customer_list)
+    print(f'List of customer\'s full names ordered alphabetically:')
+    for i in sorted_names_list:
+        print(i)
 
 if __name__ == '__main__':
     main()
