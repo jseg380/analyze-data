@@ -81,6 +81,13 @@ def sort_customer_names_list(customer_list):
             key=lambda w: ''.join(c for c in unicodedata.normalize('NFD', w)
                                   if unicodedata.category(c) != 'Mn'))
 
+def sort_companies_jobs_list(customer_list):
+    jobs_list = map(
+            lambda d: d['job'],
+            customer_list)
+
+    return sorted(set(jobs_list))
+
 def main():
     # The program accepts one file either passed as an argument or by inputing
     # when the program is started (in case it is called without arguments)
@@ -103,6 +110,10 @@ def main():
     sorted_names_list = sort_customer_names_list(customer_list)
     print(f'List of customer\'s full names ordered alphabetically:')
     for i in sorted_names_list:
+        print(i)
+    sorted_jobs_list = sort_companies_jobs_list(customer_list)
+    print(f'List of companies user\'s jobs ordered alphabetically:')
+    for i in sorted_jobs_list:
         print(i)
 
 if __name__ == '__main__':
