@@ -105,18 +105,22 @@ def main():
     fields, customer_list = read_file(input_file)
     
     sorted_customer_list = sort_ascendent_date(customer_list)
-    print(f'Customer with the earliest check in date: {sorted_customer_list[0]}')
-    print(f'Customer with the latest check in date: {sorted_customer_list[-1]}')
+    print(f'Customer with the earliest check in date: {sorted_customer_list[0]["first name"]} {sorted_customer_list[0]["last name"]} {sorted_customer_list[0]["last check-in date"]}')
+
+    print(f'\nCustomer with the latest check in date: {sorted_customer_list[-1]["first name"]} {sorted_customer_list[-1]["last name"]} {sorted_customer_list[-1]["last check-in date"]}')
+
     sorted_names_list = sort_customer_names_list(customer_list)
-    print(f'List of customer\'s full names ordered alphabetically:')
-    for i in sorted_names_list:
-        print(i)
+    print(f'\nList of customer\'s full names ordered alphabetically:')
+    for name in sorted_names_list:
+        print('  -', name)
+
     sorted_jobs_list = sort_companies_jobs_list(customer_list)
-    print(f'List of companies user\'s jobs ordered alphabetically:')
-    for i in sorted_jobs_list:
-        print(i)
+    print(f'\nList of companies user\'s jobs ordered alphabetically:')
+    for job in sorted_jobs_list:
+        print('  -', job)
 
 if __name__ == '__main__':
+    write_log('\n----------------------------------')
     main()
 else:
     write_log('Invalid call of analyze-data')
